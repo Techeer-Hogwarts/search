@@ -5,7 +5,8 @@ FROM golang:1.23.0-alpine AS builder
 WORKDIR /app
 
 # 고랭 모듈 파일 복사 및 설치
-COPY go.mod go.sum ./
+# COPY go.mod go.sum ./
+COPY go.mod ./
 RUN go mod download
 
 # 소스코드 복사
