@@ -14,7 +14,7 @@ services:
       - search-network
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: search-container
+    command: search-container --interval 60 --cleanup --include-stopped
 
 networks:
   search-network:
