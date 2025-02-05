@@ -16,7 +16,7 @@ func SetupDatabase() *gorm.DB {
 		config.GetEnvVarAsString("DB_HOST", "localhost"),
 		config.GetEnvVarAsString("DB_USER", "techeer"),
 		config.GetEnvVarAsString("DB_PASSWORD", "secret"),
-		config.GetEnvVarAsString("DB_NAME", "hackathon"),
+		config.GetEnvVarAsString("DB_NAME", "hogwarts"),
 		config.GetEnvVarAsString("DB_PORT", "5432"),
 		config.GetEnvVarAsString("DB_SSLMODE", "disable"),
 	)
