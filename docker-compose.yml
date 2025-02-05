@@ -1,0 +1,21 @@
+services:
+  search:
+    image: suhach0523/techeerism-search:dev
+    container_name: search-container
+    networks:
+      - search-network
+    ports:
+      - "8085:8085"
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    networks:
+      - search-network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: search-container
+
+networks:
+  search-network:
+    driver: bridge
