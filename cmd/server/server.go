@@ -1,22 +1,21 @@
 package server
 
 import (
-	"fmt"
 	"log"
+	"net/http"
 
-	"github.com/Techeer-Hogwarts/search/cmd/database"
-	"github.com/Techeer-Hogwarts/search/cmd/handlers"
-	"github.com/Techeer-Hogwarts/search/cmd/repositories"
-	"github.com/Techeer-Hogwarts/search/cmd/services"
+	"github.com/Techeer-Hogwarts/search/config"
 )
 
-func Start(port string) {
-	db := database.SetupDatabase()
-	repo := repositories.NewRepository(db)
-	service := services.NewService(repo)
-	handler := handlers.NewHandler(service)
+func NewServer() *http.Server {
+	r := setupRouter()
+	config.InitMeilisearch()
 
-	router := setupRouter(handler)
-	router.Run(fmt.Sprintf(":%s", port))
-	log.Printf("Server started on port %s", port)
+	server := &http.Server{
+		Addr:    ":8080",
+		Handler: r,
+	}
+
+	log.Println("Server initialized")
+	return server
 }

@@ -1,10 +1,7 @@
 package repositories
 
-import "gorm.io/gorm"
+import "github.com/Techeer-Hogwarts/search/cmd/models"
 
-type Repository struct {
-}
-
-func NewRepository(db *gorm.DB) *Repository {
-	return &Repository{}
+type Repository interface {
+	Search(query string, limit, offset int) ([]models.SearchResult, error)
 }

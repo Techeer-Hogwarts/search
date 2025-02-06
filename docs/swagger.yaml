@@ -1,4 +1,44 @@
 info:
   contact: {}
-paths: {}
+paths:
+  /search/combined:
+    get:
+      consumes:
+      - application/json
+      description: Query Meilisearch and return results
+      parameters:
+      - description: Search query string
+        in: query
+        name: query
+        required: true
+        type: string
+      - description: Number of results to return (default 10)
+        in: query
+        name: limit
+        type: integer
+      - description: Offset for pagination (default 0)
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Search in Meilisearch
+      tags:
+      - search
 swagger: "2.0"

@@ -1,11 +1,14 @@
 package main
 
 import (
+	"log"
+
 	"github.com/Techeer-Hogwarts/search/cmd/server"
-	"github.com/Techeer-Hogwarts/search/config"
 )
 
 func main() {
-	port := config.GetEnvVarAsString("PORT", "8080")
-	server.Start(port)
+	// Start the server
+	srv := server.NewServer()
+	log.Println("Server is running on :8080")
+	log.Fatal(srv.ListenAndServe())
 }
