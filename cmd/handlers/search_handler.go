@@ -15,6 +15,7 @@ import (
 // @Tags search
 // @Accept json
 // @Produce json
+// @Param index query string true "name of index"
 // @Param query query string true "Search query string"
 // @Param limit query int false "Number of results to return (default 10)"
 // @Param offset query int false "Offset for pagination (default 0)"
@@ -32,9 +33,10 @@ func SearchHandler(c *gin.Context) {
 	// Dependency injection
 	repo := repositories.NewSearchRepository()
 	service := services.NewSearchService(repo)
+	index := "documents"
 
 	// Perform search
-	results, err := service.PerformSearch(req.Query, req.Limit, req.Offset)
+	results, err := service.PerformSearch(index, req.Query, req.Limit, req.Offset)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
 		return

@@ -1,21 +1,42 @@
 services:
-  search:
-    image: suhach0523/techeerism-search:dev
-    container_name: search-container
+  # search:
+  #   image: suhach0523/techeerism-search:dev
+  #   container_name: search-container
+  #   networks:
+  #     - search-network
+  #   environment:
+  #     - MEILISEARCH_ADDR=http://meilisearch:7700
+  #     - MEILISEARCH_KEY=masterKey
+  #     - GIN_MODE=release
+  #   ports:
+  #     - "8085:8085"
+
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   container_name: watchtower
+  #   networks:
+  #     - search-network
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   command: search-container --interval 60 --cleanup --include-stopped
+  
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    container_name: meilisearch
     networks:
       - search-network
     ports:
-      - "8085:8085"
-
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    networks:
-      - search-network
+      - "7700:7700"
+    environment:
+      - MEILI_NO_ANALYTICS=true
+      - MEILI_MASTER_KEY=${MEILISEARCH_API_KEY}
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: search-container --interval 60 --cleanup --include-stopped
+      - meilisearch-data:/meili_data/data.ms
+    restart: unless-stopped
 
 networks:
   search-network:
     driver: bridge
+
+volumes:
+  meilisearch-data:

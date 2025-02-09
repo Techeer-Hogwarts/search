@@ -7,6 +7,11 @@ paths:
       - application/json
       description: Query Meilisearch and return results
       parameters:
+      - description: name of index
+        in: query
+        name: index
+        required: true
+        type: string
       - description: Search query string
         in: query
         name: query

@@ -5,6 +5,7 @@ package models
 // @Param limit query int false "Number of results to return (default 10)"
 // @Param offset query int false "Offset for pagination (default 0)"
 type SearchRequest struct {
+	Index  string `json:"index" form:"index" binding:"required"`
 	Query  string `json:"query" form:"query" binding:"required"`
 	Limit  int    `json:"limit,omitempty" form:"limit"`
 	Offset int    `json:"offset,omitempty" form:"offset"`

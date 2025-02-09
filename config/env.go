@@ -21,8 +21,10 @@ func LoadEnvFile(filename string) {
 func GetEnvVarAsString(key string, defaultString string) string {
 	value, found := os.LookupEnv(key)
 	if !found {
+		log.Println("키가 존재하지 않습니다.")
 		return defaultString
 	}
+	log.Printf("키 %s가 존재합니다.", key)
 	return value
 }
 
@@ -38,6 +40,7 @@ func GetEnvVarAsInt(key string, defaultInt int) int {
 		log.Println("키를 int로 변환할 수 없습니다.")
 		return defaultInt
 	}
+	log.Printf("키 %s가 존재합니다.", key)
 	return intValue
 }
 
@@ -53,5 +56,6 @@ func GetEnvVarAsBool(key string, defaultBool bool) bool {
 		log.Println("키를 bool로 변환할 수 없습니다.")
 		return defaultBool
 	}
+	log.Printf("키 %s가 존재합니다.", key)
 	return boolValue
 }
