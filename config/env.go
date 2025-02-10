@@ -21,7 +21,7 @@ func LoadEnvFile(filename string) {
 func GetEnvVarAsString(key string, defaultString string) string {
 	value, found := os.LookupEnv(key)
 	if !found {
-		log.Println("키가 존재하지 않습니다.")
+		log.Printf("%s키가 존재하지 않습니다.", key)
 		return defaultString
 	}
 	log.Printf("키 %s가 존재합니다.", key)

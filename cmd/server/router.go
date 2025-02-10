@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/Techeer-Hogwarts/search/cmd/handlers"
+	"github.com/Techeer-Hogwarts/search/config"
 	docs "github.com/Techeer-Hogwarts/search/docs"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -29,13 +30,16 @@ var (
 		},
 		[]string{"status"},
 	)
+	authUsers gin.Accounts
 )
 
-// func init() {
-// 	prometheus.MustRegister(indexAccessCounter)
-// 	prometheus.MustRegister(searchDurationHistogram)
-// 	prometheus.MustRegister(collectors.NewGoCollector())
-// }
+func init() {
+	username := config.GetEnvVarAsString("SWAGGER_USERNAME", "admin")
+	password := config.GetEnvVarAsString("SWAGGER_PASSWORD", "admin")
+	authUsers = gin.Accounts{
+		username: password,
+	}
+}
 
 // setupRouter sets up the routes for the application.
 func setupRouter() *gin.Engine {
@@ -67,7 +71,8 @@ func setupRouter() *gin.Engine {
 		}
 
 	}
+	swagger := router.Group("/swagger", gin.BasicAuth(authUsers))
+	swagger.GET("/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return router
 }

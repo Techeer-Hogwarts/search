@@ -1,20 +1,22 @@
 services:
-  # search-conatiner:
-  #   image: suhach0523/techeerism-search:lastest
-  #   container_name: search-container
-  #   networks:
-  #     - search-network
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - MEILISEARCH_ADDR=http://meilisearch:7700
-  #     - MEILISEARCH_KEY=${MEILISEARCH_API_KEY}
-  #     - GIN_MODE=release
-  #   ports:
-  #     - "8085:8085"
-  #   labels:
-  #     logging: "promtail"
-  #     logging_jobname: "searchContainer"
+  search-conatiner:
+    image: suhach0523/techeerism-search:dev
+    container_name: search-container
+    networks:
+      - search-network
+    env_file:
+      - .env
+    environment:
+      - MEILISEARCH_ADDR=http://meilisearch:7700
+      - MEILISEARCH_KEY=${MEILISEARCH_API_KEY}
+      - GIN_MODE=release
+      - SWAGGER_USERNAME=${SWAGGER_USERNAME}
+      - SWAGGER_PASSWORD=${SWAGGER_PASSWORD}
+    ports:
+      - "8085:8085"
+    labels:
+      - logging=promtail
+      - logging_jobname=searchContainer
 
   # watchtower:
   #   image: containrrr/watchtower
@@ -42,6 +44,9 @@ services:
     volumes:
       - meilisearch-data:/meili_data/data.ms
     restart: unless-stopped
+    labels:
+      - logging=promtail
+      - logging_jobname=meilisearchContainer
 
   loki:
     image: grafana/loki:latest
@@ -80,6 +85,14 @@ services:
       - .env
     environment:
       - MEILISEARCH_API_KEY=${MEILISEARCH_API_KEY}
+    networks:
+      - search-network
+  
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
     networks:
       - search-network
 
