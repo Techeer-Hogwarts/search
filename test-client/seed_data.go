@@ -20,7 +20,7 @@ func main() {
 	client := meilisearch.New(meiliHost, meilisearch.WithAPIKey(meiliKey))
 
 	// Define index settings
-	index := client.Index("documents")
+	index := client.Index("test")
 
 	// Sample data
 	documents := []map[string]interface{}{

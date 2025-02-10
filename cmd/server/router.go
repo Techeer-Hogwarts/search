@@ -5,9 +5,37 @@ import (
 	docs "github.com/Techeer-Hogwarts/search/docs"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
+var (
+	indexAccessCounter = promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "search_access_total",
+			Help: "Total number of times search handler was accessed",
+		},
+		[]string{"status"}, // Success or failure status
+	)
+
+	searchDurationHistogram = promauto.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Name:    "search_processing_duration_seconds",
+			Help:    "Time taken to process search requests",
+			Buckets: prometheus.DefBuckets, // Default Prometheus buckets
+		},
+		[]string{"status"},
+	)
+)
+
+// func init() {
+// 	prometheus.MustRegister(indexAccessCounter)
+// 	prometheus.MustRegister(searchDurationHistogram)
+// 	prometheus.MustRegister(collectors.NewGoCollector())
+// }
 
 // setupRouter sets up the routes for the application.
 func setupRouter() *gin.Engine {
@@ -33,10 +61,13 @@ func setupRouter() *gin.Engine {
 		// search routes
 		searchGroup := apiGroup.Group("/search")
 		{
-			searchGroup.GET("/combined", handlers.SearchHandler)
+			searchGroup.GET("/combined", func(c *gin.Context) {
+				handlers.SearchHandler(c, indexAccessCounter, searchDurationHistogram)
+			})
 		}
 
 	}
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return router
 }

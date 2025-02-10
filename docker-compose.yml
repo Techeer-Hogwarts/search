@@ -1,15 +1,20 @@
 services:
-  # search:
-  #   image: suhach0523/techeerism-search:dev
+  # search-conatiner:
+  #   image: suhach0523/techeerism-search:lastest
   #   container_name: search-container
   #   networks:
   #     - search-network
+  #   env_file:
+  #     - .env
   #   environment:
   #     - MEILISEARCH_ADDR=http://meilisearch:7700
-  #     - MEILISEARCH_KEY=masterKey
+  #     - MEILISEARCH_KEY=${MEILISEARCH_API_KEY}
   #     - GIN_MODE=release
   #   ports:
   #     - "8085:8085"
+  #   labels:
+  #     logging: "promtail"
+  #     logging_jobname: "searchContainer"
 
   # watchtower:
   #   image: containrrr/watchtower
@@ -28,11 +33,55 @@ services:
     ports:
       - "7700:7700"
     environment:
-      - MEILI_NO_ANALYTICS=true
       - MEILI_MASTER_KEY=${MEILISEARCH_API_KEY}
+      - MEILI_EXPERIMENTAL_ENABLE_METRICS=true
+      - MEILI_NO_ANALYTICS=true
+      - MEILI_ENV=production
+    env_file:
+      - .env
     volumes:
       - meilisearch-data:/meili_data/data.ms
     restart: unless-stopped
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - 3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - search-network
+  
+  promtail:
+    image:  grafana/promtail:latest
+    container_name: promtail
+    volumes:
+      - ./promtail/config.yaml:/etc/promtail/docker-config.yaml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - -config.file=/etc/promtail/docker-config.yaml
+      - -config.expand-env=true
+    depends_on:
+      - loki
+    networks:
+      - search-network
+  
+  prometheus:
+    image: prom/prometheus:v2.45.6
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    env_file:
+      - .env
+    environment:
+      - MEILISEARCH_API_KEY=${MEILISEARCH_API_KEY}
+    networks:
+      - search-network
 
 networks:
   search-network:
