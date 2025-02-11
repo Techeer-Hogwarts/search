@@ -65,7 +65,7 @@ jobs:
         docker buildx build \
           --platform linux/amd64,linux/arm64 \
           --push \
-          -t ${{ secrets.DOCKER_HUB_USERNAME }}/techeerism-search:$DOCKER_IMAGE_TAG . \
+          -t ${{ secrets.DOCKER_HUB_USERNAME }}/techeerism-search:$DOCKER_IMAGE_TAG . 
     - name: Push dev tag if not main
       if: github.ref != 'refs/heads/main'
       run: |
