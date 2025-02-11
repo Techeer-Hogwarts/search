@@ -58,9 +58,9 @@ func setupRouter() *gin.Engine {
 	docs.SwaggerInfo.Title = "Techeerzip Search API"
 	docs.SwaggerInfo.Description = "Search Engine API"
 	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.BasePath = "/api/v2"
 
-	apiGroup := router.Group("/api/v1")
+	apiGroup := router.Group("/api/v2")
 	{
 		// search routes
 		searchGroup := apiGroup.Group("/search")
@@ -71,7 +71,7 @@ func setupRouter() *gin.Engine {
 		}
 
 	}
-	swagger := router.Group("/api/v1/swagger", gin.BasicAuth(authUsers))
+	swagger := router.Group("/api/v2/swagger", gin.BasicAuth(authUsers))
 	swagger.GET("/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 	return router
