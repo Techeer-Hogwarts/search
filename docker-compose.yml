@@ -71,6 +71,8 @@ services:
       - loki
     networks:
       - search-network
+    ports:
+      - 9080:9080
   
   prometheus:
     image: prom/prometheus:v2.45.6
