@@ -18,14 +18,14 @@ services:
       - logging=promtail
       - logging_jobname=searchContainer
 
-  # watchtower:
-  #   image: containrrr/watchtower
-  #   container_name: watchtower
-  #   networks:
-  #     - search-network
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   command: search-container --interval 60 --cleanup --include-stopped
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    networks:
+      - search-network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: search-container --interval 60 --cleanup --include-stopped
   
   meilisearch:
     image: getmeili/meilisearch:latest

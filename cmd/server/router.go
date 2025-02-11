@@ -71,7 +71,7 @@ func setupRouter() *gin.Engine {
 		}
 
 	}
-	swagger := router.Group("/swagger", gin.BasicAuth(authUsers))
+	swagger := router.Group("/api/v1/swagger", gin.BasicAuth(authUsers))
 	swagger.GET("/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 	return router
