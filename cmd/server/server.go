@@ -12,7 +12,7 @@ func NewServer() *http.Server {
 	config.InitMeilisearch()
 
 	server := &http.Server{
-		Addr:    ":8085",
+		Addr:    ":8080",
 		Handler: r,
 	}
 

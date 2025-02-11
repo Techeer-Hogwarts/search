@@ -23,7 +23,7 @@ FROM alpine:latest
 COPY --from=builder /app/search .
 
 # 포트 오픈
-EXPOSE 8085
+EXPOSE 8080
 
 # 바이너리 실행
 CMD ["./search"]
