@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Search (Combined Index)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .results {
+            margin-top: 10px;
+        }
+        .result-item {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        .result-title {
+            font-weight: bold;
+        }
+        .result-score {
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Search (All Indexes)</h2>
+    <input type="text" id="search-box" placeholder="Type to search..." autocomplete="off">
+    <div class="results" id="results"></div>
+
+    <script>
+        let timeout = null;
+
+        document.getElementById("search-box").addEventListener("input", function() {
+            clearTimeout(timeout);
+            const query = this.value.trim();
+            if (query.length === 0) {
+                document.getElementById("results").innerHTML = "";
+                return;
+            }
+
+            timeout = setTimeout(() => {
+                search(query);
+            }, 300);
+        });
+
+        async function search(query) {
+            try {
+                const response = await fetch(`http://localhost:8080/api/v2/search/combined?query=${encodeURIComponent(query)}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || "Search failed");
+                }
+
+                displayResults(data.results);
+            } catch (error) {
+                console.error("Search error:", error);
+            }
+        }
+
+        function displayResults(results) {
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "";
+
+            if (results.length === 0) {
+                resultsDiv.innerHTML = "<p>No results found.</p>";
+                return;
+            }
+
+            results.forEach(result => {
+                const div = document.createElement("div");
+                div.classList.add("result-item");
+
+                const title = document.createElement("div");
+                title.classList.add("result-title");
+                title.textContent = result.title || "No title";
+
+                const score = document.createElement("div");
+                score.classList.add("result-score");
+                score.textContent = `Score: ${result.score}`;
+
+                div.appendChild(title);
+                div.appendChild(score);
+                resultsDiv.appendChild(div);
+            });
+        }
+    </script>
+
+</body>
+</html>

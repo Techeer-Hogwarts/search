@@ -6,9 +6,10 @@ import (
 	"github.com/Techeer-Hogwarts/search/cmd/server"
 )
 
+// @securityDefinitions.apikey cookie
+// @in cookie
+// @name access_token
 func main() {
-	// Start the server
-	// config.LoadEnvFile(".env")
 	srv := server.NewServer()
 	log.Println("Server is running on :8080")
 	log.Fatal(srv.ListenAndServe())

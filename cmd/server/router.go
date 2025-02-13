@@ -4,6 +4,7 @@ import (
 	"github.com/Techeer-Hogwarts/search/cmd/handlers"
 	"github.com/Techeer-Hogwarts/search/config"
 	docs "github.com/Techeer-Hogwarts/search/docs"
+	"github.com/Techeer-Hogwarts/search/internal"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus"
@@ -50,7 +51,7 @@ func setupRouter() *gin.Engine {
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization", "Cookie"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
@@ -65,7 +66,14 @@ func setupRouter() *gin.Engine {
 		// search routes
 		searchGroup := apiGroup.Group("/search")
 		{
-			searchGroup.GET("/combined", func(c *gin.Context) {
+			searchGroup.Use(internal.ValidateJWT())
+			searchGroup.GET("/basic", func(c *gin.Context) {
+				handlers.BasicSearchHandler(c, indexAccessCounter, searchDurationHistogram)
+			})
+			searchGroup.GET("/final", func(c *gin.Context) {
+				handlers.FinalSearchHandler(c, indexAccessCounter, searchDurationHistogram)
+			})
+			searchGroup.GET("", func(c *gin.Context) {
 				handlers.SearchHandler(c, indexAccessCounter, searchDurationHistogram)
 			})
 		}
