@@ -1,17 +1,16 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"net/http"
+
+	"github.com/Techeer-Hogwarts/search/cmd/server"
 )
 
+// @securityDefinitions.apikey cookie
+// @in cookie
+// @name access_token
 func main() {
-	// Basic Hello World on port 8080
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, World")
-	})
-
-	log.Println("Server started on: http://localhost:8085")
-	http.ListenAndServe(":8085", nil)
+	srv := server.NewServer()
+	log.Println("Server is running on :8080")
+	log.Fatal(srv.ListenAndServe())
 }
