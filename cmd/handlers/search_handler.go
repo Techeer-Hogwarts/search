@@ -109,6 +109,15 @@ func SearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogram *pr
 		c.JSON(http.StatusOK, gin.H{"results": results})
 		counter.WithLabelValues("success").Inc()
 		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
+	case "event":
+		results, err := service.PerformEventSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"results": results})
+		counter.WithLabelValues("success").Inc()
+		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
 	default:
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invald Index"})
 		return

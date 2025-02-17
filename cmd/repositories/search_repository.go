@@ -254,7 +254,7 @@ func (r *SearchRepository) BlogSearch(query string, limit, offset int) ([]models
 		userID, _ := hitMap["userID"].(string)
 		username, _ := hitMap["userName"].(string)
 		userProfileImage, _ := hitMap["userProfileImage"].(string)
-		stack, _ := hitMap["stack"].(string)
+		stack, _ := hitMap["stack"].([]string)
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
@@ -303,7 +303,7 @@ func (r *SearchRepository) ResumeSearch(query string, limit, offset int) ([]mode
 		userID, _ := hitMap["userID"].(string)
 		userName, _ := hitMap["userName"].(string)
 		userProfileImage, _ := hitMap["userProfileImage"].(string)
-		stack, _ := hitMap["stack"].(string)
+		stack, _ := hitMap["stack"].([]string)
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
