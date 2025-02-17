@@ -79,22 +79,22 @@ type BlogSearchResult struct {
 	UserID           string   `json:"userID" form:"userID" example:"1"`
 	UserName         string   `json:"userName" form:"userName" example:"윤정은"`
 	UserProfileImage string   `json:"userProfileImage" form:"userProfileImage" example:"https://example.com/profile.jpg"`
+	Thumbnail        string   `json:"thumbnail" form:"thumbnail" example:"https://example.com/thumbnail.jpg"`
 	Stack            []string `json:"stack" form:"stack" example:"Go"`
 	Index            string   `json:"index" form:"index" example:"user"`
 	Score            float64  `json:"score" form:"score" example:"0.99"`
 }
 
 type ResumeSearchResult struct {
-	ID               string   `json:"id" form:"id" example:"1"`
-	Title            string   `json:"title" form:"title" example:"이력서 제목"`
-	URL              string   `json:"url" form:"url" example:"https://example.com/resume"`
-	CreatedAt        string   `json:"createdAt" form:"createdAt" example:"2021-01-01"`
-	UserID           string   `json:"userID" form:"userID" example:"1"`
-	UserName         string   `json:"userName" form:"userName" example:"윤정은"`
-	UserProfileImage string   `json:"userProfileImage" form:"userProfileImage" example:"https://example.com/profile.jpg"`
-	Stack            []string `json:"stack" form:"stack" example:"Go"`
-	Index            string   `json:"index" form:"index" example:"user"`
-	Score            float64  `json:"score" form:"score" example:"0.99"`
+	ID               string  `json:"id" form:"id" example:"1"`
+	Title            string  `json:"title" form:"title" example:"이력서 제목"`
+	URL              string  `json:"url" form:"url" example:"https://example.com/resume"`
+	CreatedAt        string  `json:"createdAt" form:"createdAt" example:"2021-01-01"`
+	UserID           string  `json:"userID" form:"userID" example:"1"`
+	UserName         string  `json:"userName" form:"userName" example:"윤정은"`
+	UserProfileImage string  `json:"userProfileImage" form:"userProfileImage" example:"https://example.com/profile.jpg"`
+	Index            string  `json:"index" form:"index" example:"user"`
+	Score            float64 `json:"score" form:"score" example:"0.99"`
 }
 
 type SessionSearchResult struct {
