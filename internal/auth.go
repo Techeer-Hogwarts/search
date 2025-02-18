@@ -28,6 +28,7 @@ func ValidateJWT() gin.HandlerFunc {
 		cookie, err := c.Cookie("access_token")
 		if err != nil {
 			// Invalid JWT, allow the request to continue
+			log.Println("Invalid JWT 1")
 			c.Set("valid_jwt", false) // Flag indicating invalid JWT
 			c.Next()
 			return
@@ -37,6 +38,7 @@ func ValidateJWT() gin.HandlerFunc {
 		claims, err := validateToken(cookie)
 		if err != nil {
 			// Invalid JWT, allow the request to continue
+			log.Println("Invalid JWT 2")
 			c.Set("valid_jwt", false) // Flag indicating invalid JWT
 			c.Next()
 			return
@@ -53,6 +55,7 @@ func validateToken(tokenString string) (*JWTClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
 		// Ensure signing method is HMAC
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			log.Println("unexpected signing method")
 			return nil, errors.New("unexpected signing method")
 		}
 		return []byte(JWT_TOKEN), nil
@@ -65,6 +68,7 @@ func validateToken(tokenString string) (*JWTClaims, error) {
 
 	claims, ok := token.Claims.(*JWTClaims)
 	if !ok {
+		log.Println("invalid token claims")
 		return nil, errors.New("invalid token claims")
 	}
 
