@@ -44,9 +44,9 @@ func SearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogram *pr
 	validJWT, _ := c.Get("valid_jwt")
 	var allowedIndex []string
 	if validJWT == true {
-		allowedIndex = []string{"user", "resume", "blog", "session", "projectTeam", "studyTeam", "event"}
+		allowedIndex = []string{"user", "resume", "blog", "session", "project", "study", "event"}
 	} else {
-		allowedIndex = []string{"blog", "users", "event"}
+		allowedIndex = []string{"blog", "user", "event", "project", "study"}
 	}
 	// available indexes: user, resume, blog, session, projectTeam, studyTeam, event
 	// Perform search
@@ -54,8 +54,9 @@ func SearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogram *pr
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Index Not Allowed"})
 		return
 	}
-	if req.Index == "user" {
-		results, err := service.PerformUserSearch(req.Index, req.Query, req.Limit, req.Offset)
+	switch req.Index {
+	case "user":
+		results, err := service.PerformUserSearch(req.Query, req.Limit, req.Offset)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
 			return
@@ -63,16 +64,64 @@ func SearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogram *pr
 		c.JSON(http.StatusOK, gin.H{"results": results})
 		counter.WithLabelValues("success").Inc()
 		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
+	case "project":
+		results, err := service.PerformProjectSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"results": results})
+		counter.WithLabelValues("success").Inc()
+		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
+	case "study":
+		results, err := service.PerformStudySearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"results": results})
+		counter.WithLabelValues("success").Inc()
+		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
+	case "blog":
+		results, err := service.PerformBlogSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"results": results})
+		counter.WithLabelValues("success").Inc()
+		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
+	case "resume":
+		results, err := service.PerformResumeSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"results": results})
+		counter.WithLabelValues("success").Inc()
+		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
+	case "session":
+		results, err := service.PerformSessionSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"results": results})
+		counter.WithLabelValues("success").Inc()
+		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
+	case "event":
+		results, err := service.PerformEventSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"results": results})
+		counter.WithLabelValues("success").Inc()
+		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
+	default:
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invald Index"})
 		return
 	}
-	results, err := service.PerformSearch(req.Index, req.Query, req.Limit, req.Offset)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"results": results})
-	counter.WithLabelValues("success").Inc()
-	histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
 }
 
 // BasicSearchHandler handles search requests
@@ -100,8 +149,8 @@ func BasicSearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogra
 	repo := repositories.NewSearchRepository()
 	service := services.NewSearchService(repo)
 	// available indexes: user, resume, blog, session, projectTeam, studyTeam, event
-	validated := []string{"resume", "blog", "session", "projectTeam", "studyTeam", "event"}
-	invalidated := []string{"blog", "event"}
+	validated := []string{"resume", "blog", "session", "project", "study", "event"}
+	invalidated := []string{"blog", "event", "project", "study"}
 
 	var results []models.CombinedSearchResult
 	validJWT, _ := c.Get("valid_jwt")
@@ -161,45 +210,52 @@ func FinalSearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogra
 	// Dependency injection
 	repo := repositories.NewSearchRepository()
 	service := services.NewSearchService(repo)
-	// available indexes: user, resume, blog, session, projectTeam, studyTeam, event
-	validated := []string{"resume", "blog", "session", "projectTeam", "studyTeam", "event"}
-	invalidated := []string{"blog", "event"}
+
+	// validated := []string{"resume", "blog", "session", "project", "study", "event"}
+	// invalidated := []string{"blog", "event", "project", "study"}
 	var finalResult models.FinalSearchResult
 	finalResult.Result = make(models.IndexSearchResult)
-	var results []models.CombinedSearchResult
+
 	validJWT, _ := c.Get("valid_jwt")
 	if validJWT == false {
-		for _, index := range invalidated {
-			// Perform search
-			result, err := service.PerformFinalSearch(index, req.Query, req.Limit, req.Offset)
-			if err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
-				return
-			}
-			sort.Slice(results, func(i, j int) bool {
-				return results[i].Score > results[j].Score
-			})
-			finalResult.Result[index] = result
+		result, err := service.PerformProjectSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
 		}
-	} else {
-		for _, index := range validated {
-			// Perform search
-			result, err := service.PerformFinalSearch(index, req.Query, req.Limit, req.Offset)
-			if err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
-				return
-			}
-			sort.Slice(results, func(i, j int) bool {
-				return results[i].Score > results[j].Score
-			})
-			finalResult.Result[index] = result
+		finalResult.Result["project"] = result
+		result2, err := service.PerformStudySearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
 		}
+		finalResult.Result["study"] = result2
+		result3, err := service.PerformBlogSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		finalResult.Result["blog"] = result3
+		result4, err := service.PerformEventSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		finalResult.Result["event"] = result4
+	} else if validJWT == true {
+		result5, err := service.PerformSessionSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		finalResult.Result["session"] = result5
+		result6, err := service.PerformResumeSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		finalResult.Result["resume"] = result6
 	}
-
-	// Sort results by score
-	sort.Slice(results, func(i, j int) bool {
-		return results[i].Score > results[j].Score
-	})
 
 	c.JSON(http.StatusOK, finalResult)
 	counter.WithLabelValues("success").Inc()

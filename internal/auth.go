@@ -2,7 +2,6 @@ package internal
 
 import (
 	"errors"
-	"log"
 
 	"github.com/Techeer-Hogwarts/search/config"
 	"github.com/gin-gonic/gin"
@@ -18,7 +17,7 @@ type JWTClaims struct {
 var JWT_TOKEN string
 
 func init() {
-	JWT_TOKEN = config.GetEnvVarAsString("JWT_SECRET", "your_secret_key")
+	JWT_TOKEN = config.GetEnvVarAsString("JWT_SECRET", "some_secret_key")
 }
 
 // ValidateJWT middleware checks the JWT token from cookies
@@ -59,7 +58,6 @@ func validateToken(tokenString string) (*JWTClaims, error) {
 	})
 
 	if err != nil || !token.Valid {
-		log.Println("JWT validation failed:", err)
 		return nil, errors.New("invalid token")
 	}
 
