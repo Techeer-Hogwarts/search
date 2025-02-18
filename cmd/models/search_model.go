@@ -37,52 +37,51 @@ type CombinedSearchResult struct {
 }
 
 type UserSearchResult struct {
-	ID           string   `json:"id" form:"id" example:"1"`
-	Name         string   `json:"name" form:"name" example:"윤정은"`
-	School       string   `json:"school" form:"school" example:"서울대학교"`
-	Email        string   `json:"email" form:"email" example:"test@gmail.com"`
-	Year         int      `json:"year" form:"year" example:"7"`
-	Grade        string   `json:"grade" form:"grade" example:"3"`
-	Stack        []string `json:"stack" form:"stack" example:"Go"`
-	ProfileImage string   `json:"profileImage" form:"profileImage" example:"https://example.com/profile.jpg"`
-	Index        string   `json:"index" form:"index" example:"user"`
-	Score        float64  `json:"score" form:"score" example:"0.99"`
+	ID           string        `json:"id" form:"id" example:"1"`
+	Name         string        `json:"name" form:"name" example:"윤정은"`
+	School       string        `json:"school" form:"school" example:"서울대학교"`
+	Email        string        `json:"email" form:"email" example:"test@gmail.com"`
+	Year         int           `json:"year" form:"year" example:"7"`
+	Grade        string        `json:"grade" form:"grade" example:"3"`
+	Stack        []interface{} `json:"stack" form:"stack" example:"Go"`
+	ProfileImage string        `json:"profileImage" form:"profileImage" example:"https://example.com/profile.jpg"`
+	Index        string        `json:"index" form:"index" example:"user"`
+	Score        float64       `json:"score" form:"score" example:"0.99"`
 }
 
 type ProjectSearchResult struct {
-	ID             string   `json:"id" form:"id" example:"1"`
-	Name           string   `json:"name" form:"name" example:"프로젝트 이름"`
-	Title          string   `json:"title" form:"title" example:"프로젝트 제목"`
-	ProjectExplain string   `json:"projectExplain" form:"projectExplain" example:"프로젝트 설명"`
-	ResultImages   []string `json:"resultImages" form:"resultImages" example:"https://example.com/result.jpg"`
-	TeamStacks     []string `json:"teamStacks" form:"teamStacks" example:"Go"`
-	Index          string   `json:"index" form:"index" example:"user"`
-	Score          float64  `json:"score" form:"score" example:"0.99"`
+	ID             string        `json:"id" form:"id" example:"1"`
+	Name           string        `json:"name" form:"name" example:"프로젝트 이름"`
+	Title          string        `json:"title" form:"title" example:"프로젝트 제목"`
+	ProjectExplain string        `json:"projectExplain" form:"projectExplain" example:"프로젝트 설명"`
+	ResultImages   []interface{} `json:"resultImages" form:"resultImages" example:"https://example.com/result.jpg"`
+	TeamStacks     []interface{} `json:"teamStacks" form:"teamStacks" example:"Go"`
+	Index          string        `json:"index" form:"index" example:"user"`
+	Score          float64       `json:"score" form:"score" example:"0.99"`
 }
 
 type StudySearchResult struct {
-	ID             string   `json:"id" form:"id" example:"1"`
-	Name           string   `json:"name" form:"name" example:"프로젝트 이름"`
-	Title          string   `json:"title" form:"title" example:"프로젝트 제목"`
-	ProjectExplain string   `json:"projectExplain" form:"projectExplain" example:"프로젝트 설명"`
-	ResultImages   []string `json:"resultImages" form:"resultImages" example:"https://example.com/result.jpg"`
-	TeamStacks     []string `json:"teamStacks" form:"teamStacks" example:"Go"`
-	Index          string   `json:"index" form:"index" example:"user"`
-	Score          float64  `json:"score" form:"score" example:"0.99"`
+	ID             string        `json:"id" form:"id" example:"1"`
+	Name           string        `json:"name" form:"name" example:"프로젝트 이름"`
+	Title          string        `json:"title" form:"title" example:"프로젝트 제목"`
+	ProjectExplain string        `json:"projectExplain" form:"projectExplain" example:"프로젝트 설명"`
+	ResultImages   []interface{} `json:"resultImages" form:"resultImages" example:"https://example.com/result.jpg"`
+	Index          string        `json:"index" form:"index" example:"user"`
+	Score          float64       `json:"score" form:"score" example:"0.99"`
 }
 
 type BlogSearchResult struct {
-	ID               string   `json:"id" form:"id" example:"1"`
-	Title            string   `json:"title" form:"title" example:"블로그 제목"`
-	URL              string   `json:"url" form:"url" example:"https://example.com/blog"`
-	Date             string   `json:"date" form:"date" example:"2021-01-01"`
-	UserID           string   `json:"userID" form:"userID" example:"1"`
-	UserName         string   `json:"userName" form:"userName" example:"윤정은"`
-	UserProfileImage string   `json:"userProfileImage" form:"userProfileImage" example:"https://example.com/profile.jpg"`
-	Thumbnail        string   `json:"thumbnail" form:"thumbnail" example:"https://example.com/thumbnail.jpg"`
-	Stack            []string `json:"stack" form:"stack" example:"Go"`
-	Index            string   `json:"index" form:"index" example:"user"`
-	Score            float64  `json:"score" form:"score" example:"0.99"`
+	ID               string        `json:"id" form:"id" example:"1"`
+	Title            string        `json:"title" form:"title" example:"블로그 제목"`
+	URL              string        `json:"url" form:"url" example:"https://example.com/blog"`
+	Date             string        `json:"date" form:"date" example:"2021-01-01"`
+	UserID           string        `json:"userID" form:"userID" example:"1"`
+	UserName         string        `json:"userName" form:"userName" example:"윤정은"`
+	UserProfileImage string        `json:"userProfileImage" form:"userProfileImage" example:"https://example.com/profile.jpg"`
+	Thumbnail        string        `json:"thumbnail" form:"thumbnail" example:"https://example.com/thumbnail.jpg"`
+	Stack            []interface{} `json:"stack" form:"stack" example:"Go"`
+	Index            string        `json:"index" form:"index" example:"user"`
+	Score            float64       `json:"score" form:"score" example:"0.99"`
 }
 
 type ResumeSearchResult struct {

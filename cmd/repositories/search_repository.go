@@ -114,7 +114,7 @@ func (r *SearchRepository) UserSearch(query string, limit, offset int) ([]models
 		email, _ := hitMap["email"].(string)
 		year, _ := hitMap["year"].(int)
 		grade, _ := hitMap["grade"].(string)
-		stack, _ := hitMap["stack"].([]string)
+		stack, _ := hitMap["stack"].([]interface{})
 		profileImage, _ := hitMap["profileImage"].(string)
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
@@ -161,8 +161,8 @@ func (r *SearchRepository) ProjectSearch(query string, limit, offset int) ([]mod
 		name, _ := hitMap["name"].(string)
 		title, _ := hitMap["title"].(string)
 		projectExplain, _ := hitMap["projectExplain"].(string)
-		resultImages, _ := hitMap["resultImages"].([]string)
-		teamStacks, _ := hitMap["teamStacks"].([]string)
+		resultImages, _ := hitMap["resultImages"].([]interface{})
+		teamStacks, _ := hitMap["teamStacks"].([]interface{})
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
@@ -188,7 +188,7 @@ func (r *SearchRepository) StudySearch(query string, limit, offset int) ([]model
 		Limit:                int64(limit),
 		Offset:               int64(offset),
 		ShowRankingScore:     true,
-		AttributesToSearchOn: []string{"name", "title", "projectExplain", "teamStacks"},
+		AttributesToSearchOn: []string{"name", "title", "projectExplain"},
 	})
 	if err != nil {
 		log.Println("Search error:", err)
@@ -206,8 +206,7 @@ func (r *SearchRepository) StudySearch(query string, limit, offset int) ([]model
 		name, _ := hitMap["name"].(string)
 		title, _ := hitMap["title"].(string)
 		projectExplain, _ := hitMap["projectExplain"].(string)
-		resultImages, _ := hitMap["resultImages"].([]string)
-		teamStacks, _ := hitMap["teamStacks"].([]string)
+		resultImages, _ := hitMap["resultImages"].([]interface{})
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
@@ -218,7 +217,6 @@ func (r *SearchRepository) StudySearch(query string, limit, offset int) ([]model
 			Title:          title,
 			ProjectExplain: projectExplain,
 			ResultImages:   resultImages,
-			TeamStacks:     teamStacks,
 			Index:          "study",
 			Score:          score,
 		}
@@ -255,7 +253,7 @@ func (r *SearchRepository) BlogSearch(query string, limit, offset int) ([]models
 		username, _ := hitMap["userName"].(string)
 		userProfileImage, _ := hitMap["userProfileImage"].(string)
 		thumbnail, _ := hitMap["thumbnail"].(string)
-		stack, _ := hitMap["stack"].([]string)
+		stack, ok := hitMap["stack"].([]interface{})
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
