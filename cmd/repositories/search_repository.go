@@ -188,7 +188,7 @@ func (r *SearchRepository) StudySearch(query string, limit, offset int) ([]model
 		Limit:                int64(limit),
 		Offset:               int64(offset),
 		ShowRankingScore:     true,
-		AttributesToSearchOn: []string{"name", "title", "projectExplain"},
+		AttributesToSearchOn: []string{"name", "title", "studyExplain"},
 	})
 	if err != nil {
 		log.Println("Search error:", err)
@@ -205,20 +205,20 @@ func (r *SearchRepository) StudySearch(query string, limit, offset int) ([]model
 		id, _ := hitMap["id"].(string)
 		name, _ := hitMap["name"].(string)
 		title, _ := hitMap["title"].(string)
-		projectExplain, _ := hitMap["projectExplain"].(string)
+		studyExplain, _ := hitMap["studyExplain"].(string)
 		resultImages, _ := hitMap["resultImages"].([]interface{})
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
 		}
 		result := models.StudySearchResult{
-			ID:             id,
-			Name:           name,
-			Title:          title,
-			ProjectExplain: projectExplain,
-			ResultImages:   resultImages,
-			Index:          "study",
-			Score:          score,
+			ID:           id,
+			Name:         name,
+			Title:        title,
+			StudyExplain: studyExplain,
+			ResultImages: resultImages,
+			Index:        "study",
+			Score:        score,
 		}
 		results = append(results, result)
 	}

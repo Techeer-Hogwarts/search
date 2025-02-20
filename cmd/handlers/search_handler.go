@@ -217,7 +217,7 @@ func FinalSearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogra
 	finalResult.Result = make(models.IndexSearchResult)
 
 	validJWT, _ := c.Get("valid_jwt")
-	if validJWT == false {
+	if validJWT == false || validJWT == true {
 		result, err := service.PerformProjectSearch(req.Query, req.Limit, req.Offset)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
@@ -242,7 +242,8 @@ func FinalSearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogra
 			return
 		}
 		finalResult.Result["event"] = result4
-	} else if validJWT == true {
+	}
+	if validJWT == true {
 		result5, err := service.PerformSessionSearch(req.Query, req.Limit, req.Offset)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
