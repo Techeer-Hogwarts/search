@@ -217,32 +217,31 @@ func FinalSearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogra
 	finalResult.Result = make(models.IndexSearchResult)
 
 	validJWT, _ := c.Get("valid_jwt")
-	if validJWT == false || validJWT == true {
-		result, err := service.PerformProjectSearch(req.Query, req.Limit, req.Offset)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
-			return
-		}
-		finalResult.Result["project"] = result
-		result2, err := service.PerformStudySearch(req.Query, req.Limit, req.Offset)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
-			return
-		}
-		finalResult.Result["study"] = result2
-		result3, err := service.PerformBlogSearch(req.Query, req.Limit, req.Offset)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
-			return
-		}
-		finalResult.Result["blog"] = result3
-		result4, err := service.PerformEventSearch(req.Query, req.Limit, req.Offset)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
-			return
-		}
-		finalResult.Result["event"] = result4
+	result, err := service.PerformProjectSearch(req.Query, req.Limit, req.Offset)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+		return
 	}
+	finalResult.Result["project"] = result
+	result2, err := service.PerformStudySearch(req.Query, req.Limit, req.Offset)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+		return
+	}
+	finalResult.Result["study"] = result2
+	result3, err := service.PerformBlogSearch(req.Query, req.Limit, req.Offset)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+		return
+	}
+	finalResult.Result["blog"] = result3
+	result4, err := service.PerformEventSearch(req.Query, req.Limit, req.Offset)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+		return
+	}
+	finalResult.Result["event"] = result4
+
 	if validJWT == true {
 		result5, err := service.PerformSessionSearch(req.Query, req.Limit, req.Offset)
 		if err != nil {
