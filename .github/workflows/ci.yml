@@ -63,7 +63,7 @@ jobs:
       run: |
         docker buildx create --use
         docker buildx build \
-          --platform linux/amd64,linux/arm64 \
+          --platform linux/amd64 \
           --push \
           -t ${{ secrets.DOCKER_HUB_USERNAME }}/techeerism-search:$DOCKER_IMAGE_TAG . 
     - name: Push dev tag if not main
@@ -71,7 +71,7 @@ jobs:
       run: |
         docker buildx create --use
         docker buildx build \
-          --platform linux/amd64,linux/arm64 \
+          --platform linux/amd64 \
           --push \
           -t ${{ secrets.DOCKER_HUB_USERNAME }}/techeerism-search:dev .
 
@@ -80,7 +80,7 @@ jobs:
       run: |
         docker buildx create --use
         docker buildx build \
-          --platform linux/amd64,linux/arm64 \
+          --platform linux/amd64 \
           --push \
           -t ${{ secrets.DOCKER_HUB_USERNAME }}/techeerism-search:latest .
 

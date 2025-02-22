@@ -110,6 +110,7 @@ type SessionSearchResult struct {
 
 type EventSearchResult struct {
 	ID       string  `json:"id" form:"id" example:"1"`
+	URL      string  `json:"url" form:"url" example:"https://example.com/event"`
 	Category string  `json:"category" form:"category" example:"세션"`
 	Title    string  `json:"title" form:"title" example:"세션 제목"`
 	Index    string  `json:"index" form:"index" example:"user"`
