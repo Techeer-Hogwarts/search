@@ -31,6 +31,7 @@ type FinalSearchResult struct {
 // CombinedSearchResult는 검색 결과를 나타냅니다.
 type CombinedSearchResult struct {
 	ID    string  `json:"id" form:"id" example:"1"`
+	URL   string  `json:"url" form:"url" example:"https://example.com/blog"`
 	Title string  `json:"title" form:"title" example:"스웨거로 문서화하는 방법"`
 	Index string  `json:"index" form:"index" example:"blog"`
 	Score float64 `json:"score" form:"score" example:"0.99"`

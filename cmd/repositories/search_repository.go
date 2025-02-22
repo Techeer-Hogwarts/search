@@ -73,12 +73,14 @@ func (r *SearchRepository) TitleSearch(index, query string, limit, offset int) (
 		}
 		id, _ := hitMap["id"].(string)
 		title, _ := hitMap["title"].(string)
+		url, _ := hitMap["url"].(string)
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
 		}
 		result := models.CombinedSearchResult{
 			ID:    id,
+			URL:   url,
 			Title: title,
 			Index: index,
 			Score: score,

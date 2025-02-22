@@ -38,10 +38,10 @@ services:
     ports:
       - "7700:7700"
     environment:
-      - MEILI_MASTER_KEY=${MEILISEARCH_API_KEY}
+      # - MEILI_MASTER_KEY=${MEILISEARCH_API_KEY}
       - MEILI_EXPERIMENTAL_ENABLE_METRICS=true
       - MEILI_NO_ANALYTICS=true
-      - MEILI_ENV=production
+      # - MEILI_ENV=production
     env_file:
       - .env
     volumes:
@@ -51,14 +51,14 @@ services:
       - logging=promtail
       - logging_jobname=meilisearchContainer
   
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    ports:
-      - "5050:80"
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=test@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=test
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin
+  #   ports:
+  #     - "5050:80"
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=test@gmail.com
+  #     - PGADMIN_DEFAULT_PASSWORD=test
 
   # loki:
   #   image: grafana/loki:latest
