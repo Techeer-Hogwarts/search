@@ -253,7 +253,7 @@ func (r *SearchRepository) BlogSearch(query string, limit, offset int) ([]models
 		username, _ := hitMap["userName"].(string)
 		userProfileImage, _ := hitMap["userProfileImage"].(string)
 		thumbnail, _ := hitMap["thumbnail"].(string)
-		stack, ok := hitMap["stack"].([]interface{})
+		stack, _ := hitMap["stack"].([]interface{})
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
@@ -391,6 +391,7 @@ func (r *SearchRepository) EventSearch(query string, limit, offset int) ([]model
 			continue
 		}
 		id, _ := hitMap["id"].(string)
+		url, _ := hitMap["url"].(string)
 		category, _ := hitMap["category"].(string)
 		title, _ := hitMap["title"].(string)
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
@@ -399,6 +400,7 @@ func (r *SearchRepository) EventSearch(query string, limit, offset int) ([]model
 		}
 		result := models.EventSearchResult{
 			ID:       id,
+			URL:      url,
 			Title:    title,
 			Category: category,
 			Index:    "event",
