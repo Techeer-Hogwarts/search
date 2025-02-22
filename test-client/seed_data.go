@@ -23,8 +23,8 @@ func main() {
 	userIndex := client.Index("user")
 	resumeIndex := client.Index("resume")
 	sessionIndex := client.Index("session")
-	projectTeamIndex := client.Index("projectTeam")
-	studyTeamIndex := client.Index("studyTeam")
+	projectTeamIndex := client.Index("project")
+	studyTeamIndex := client.Index("study")
 	eventIndex := client.Index("event")
 
 	// Sample data
@@ -63,7 +63,7 @@ func main() {
 	}
 
 	eventDocuments := []map[string]interface{}{
-		{"id": "1", "title": "테커 파티", "body": "테커 파티는 테커를 위한 파티입니다."},
+		{"id": "1", "title": "테커 파티", "body": "테커 파티는 테커를 위한 파티입니다.", "url": "https://example.com/event1"},
 		{"id": "2", "title": "토스 개발자 세션", "body": "토스 개발자 김재연님의 세션입니다."},
 		{"id": "3", "title": "실리콘 밸리 개발자의 모든것", "body": "실리콘 밸리 개발자의 모든것을 알아봅시다."},
 	}
