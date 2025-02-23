@@ -55,7 +55,7 @@ type ProjectSearchResult struct {
 	Name           string        `json:"name" form:"name" example:"프로젝트 이름"`
 	Title          string        `json:"title" form:"title" example:"프로젝트 제목"`
 	ProjectExplain string        `json:"projectExplain" form:"projectExplain" example:"프로젝트 설명"`
-	ResultImages   []interface{} `json:"resultImages" form:"resultImages" example:"https://example.com/result.jpg"`
+	MainImages     []interface{} `json:"mainImages" form:"mainImages" example:"https://example.com/result.jpg"`
 	TeamStacks     []interface{} `json:"teamStacks" form:"teamStacks" example:"Go"`
 	Index          string        `json:"index" form:"index" example:"user"`
 	Score          float64       `json:"score" form:"score" example:"0.99"`
@@ -66,7 +66,7 @@ type StudySearchResult struct {
 	Name         string        `json:"name" form:"name" example:"프로젝트 이름"`
 	Title        string        `json:"title" form:"title" example:"프로젝트 제목"`
 	StudyExplain string        `json:"studyExplain" form:"studyExplain" example:"프로젝트 설명"`
-	ResultImages []interface{} `json:"resultImages" form:"resultImages" example:"https://example.com/result.jpg"`
+	MainImages   []interface{} `json:"mainImages" form:"mainImages" example:"https://example.com/result.jpg"`
 	Index        string        `json:"index" form:"index" example:"user"`
 	Score        float64       `json:"score" form:"score" example:"0.99"`
 }
