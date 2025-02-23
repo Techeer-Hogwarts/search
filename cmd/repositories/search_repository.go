@@ -174,7 +174,7 @@ func (r *SearchRepository) ProjectSearch(query string, limit, offset int) ([]mod
 			Name:           name,
 			Title:          title,
 			ProjectExplain: projectExplain,
-			ResultImages:   resultImages,
+			MainImages:     resultImages,
 			TeamStacks:     teamStacks,
 			Index:          "project",
 			Score:          score,
@@ -218,7 +218,7 @@ func (r *SearchRepository) StudySearch(query string, limit, offset int) ([]model
 			Name:         name,
 			Title:        title,
 			StudyExplain: studyExplain,
-			ResultImages: resultImages,
+			MainImages:   resultImages,
 			Index:        "study",
 			Score:        score,
 		}
