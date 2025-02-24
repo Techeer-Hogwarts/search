@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"log"
-	"strconv"
 
 	"github.com/Techeer-Hogwarts/search/cmd/models"
 	"github.com/Techeer-Hogwarts/search/config"
@@ -115,7 +114,7 @@ func (r *SearchRepository) UserSearch(query string, limit, offset int) ([]models
 		name, _ := hitMap["name"].(string)
 		school, _ := hitMap["school"].(string)
 		email, _ := hitMap["email"].(string)
-		year, _ := hitMap["year"].(int)
+		year, _ := hitMap["year"].(string)
 		grade, _ := hitMap["grade"].(string)
 		stack, _ := hitMap["stack"].([]interface{})
 		profileImage, _ := hitMap["profileImage"].(string)
@@ -128,7 +127,7 @@ func (r *SearchRepository) UserSearch(query string, limit, offset int) ([]models
 			Name:         name,
 			School:       school,
 			Email:        email,
-			Year:         strconv.Itoa(year),
+			Year:         year,
 			Grade:        grade,
 			Stack:        stack,
 			ProfileImage: profileImage,
@@ -355,8 +354,8 @@ func (r *SearchRepository) SessionSearch(query string, limit, offset int) ([]mod
 		title, _ := hitMap["title"].(string)
 		presenter, _ := hitMap["presenter"].(string)
 		date, _ := hitMap["date"].(string)
-		likeCount, _ := hitMap["likeCount"].(int)
-		viewCount, _ := hitMap["viewCount"].(int)
+		likeCount, _ := hitMap["likeCount"].(string)
+		viewCount, _ := hitMap["viewCount"].(string)
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
@@ -367,8 +366,8 @@ func (r *SearchRepository) SessionSearch(query string, limit, offset int) ([]mod
 			Title:     title,
 			Presenter: presenter,
 			Date:      date,
-			LikeCount: strconv.Itoa(likeCount),
-			ViewCount: strconv.Itoa(viewCount),
+			LikeCount: likeCount,
+			ViewCount: viewCount,
 			Index:     "session",
 			Score:     score,
 		}
