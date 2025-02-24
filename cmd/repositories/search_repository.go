@@ -114,7 +114,7 @@ func (r *SearchRepository) UserSearch(query string, limit, offset int) ([]models
 		name, _ := hitMap["name"].(string)
 		school, _ := hitMap["school"].(string)
 		email, _ := hitMap["email"].(string)
-		year, _ := hitMap["year"].(int)
+		year, _ := hitMap["year"].(string)
 		grade, _ := hitMap["grade"].(string)
 		stack, _ := hitMap["stack"].([]interface{})
 		profileImage, _ := hitMap["profileImage"].(string)
@@ -305,7 +305,7 @@ func (r *SearchRepository) ResumeSearch(query string, limit, offset int) ([]mode
 		userID, _ := hitMap["userID"].(string)
 		userName, _ := hitMap["userName"].(string)
 		userProfileImage, _ := hitMap["userProfileImage"].(string)
-		year, _ := hitMap["year"].(int)
+		year, _ := hitMap["year"].(string)
 		position, _ := hitMap["position"].(string)
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
@@ -354,8 +354,8 @@ func (r *SearchRepository) SessionSearch(query string, limit, offset int) ([]mod
 		title, _ := hitMap["title"].(string)
 		presenter, _ := hitMap["presenter"].(string)
 		date, _ := hitMap["date"].(string)
-		likeCount, _ := hitMap["likeCount"].(int)
-		viewCount, _ := hitMap["viewCount"].(int)
+		likeCount, _ := hitMap["likeCount"].(string)
+		viewCount, _ := hitMap["viewCount"].(string)
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
