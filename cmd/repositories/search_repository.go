@@ -305,6 +305,8 @@ func (r *SearchRepository) ResumeSearch(query string, limit, offset int) ([]mode
 		userID, _ := hitMap["userID"].(string)
 		userName, _ := hitMap["userName"].(string)
 		userProfileImage, _ := hitMap["userProfileImage"].(string)
+		year, _ := hitMap["year"].(int)
+		position, _ := hitMap["position"].(string)
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
 			continue
@@ -317,6 +319,8 @@ func (r *SearchRepository) ResumeSearch(query string, limit, offset int) ([]mode
 			UserID:           userID,
 			UserName:         userName,
 			UserProfileImage: userProfileImage,
+			Year:             year,
+			Position:         position,
 			Index:            "resume",
 			Score:            score,
 		}
