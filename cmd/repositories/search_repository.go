@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/Techeer-Hogwarts/search/cmd/models"
 	"github.com/Techeer-Hogwarts/search/config"
@@ -127,7 +128,7 @@ func (r *SearchRepository) UserSearch(query string, limit, offset int) ([]models
 			Name:         name,
 			School:       school,
 			Email:        email,
-			Year:         year,
+			Year:         strconv.Itoa(year),
 			Grade:        grade,
 			Stack:        stack,
 			ProfileImage: profileImage,
@@ -305,7 +306,7 @@ func (r *SearchRepository) ResumeSearch(query string, limit, offset int) ([]mode
 		userID, _ := hitMap["userID"].(string)
 		userName, _ := hitMap["userName"].(string)
 		userProfileImage, _ := hitMap["userProfileImage"].(string)
-		year, _ := hitMap["year"].(int)
+		year, _ := hitMap["year"].(string)
 		position, _ := hitMap["position"].(string)
 		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
 		if !ok {
@@ -366,8 +367,8 @@ func (r *SearchRepository) SessionSearch(query string, limit, offset int) ([]mod
 			Title:     title,
 			Presenter: presenter,
 			Date:      date,
-			LikeCount: likeCount,
-			ViewCount: viewCount,
+			LikeCount: strconv.Itoa(likeCount),
+			ViewCount: strconv.Itoa(viewCount),
 			Index:     "session",
 			Score:     score,
 		}
