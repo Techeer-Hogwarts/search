@@ -11,6 +11,9 @@ scrape_configs:
       - targets: ["meilisearch:7700"]
     authorization:
       credentials: "masterKey"
-  # - job_name: 'searchCron'
-  #   static_configs:
-  #     - targets: ["search-cron:8081"]
+  - job_name: 'cadvisor-home'
+    static_configs:
+      - targets: ["cadvisor:8080"]
+  - job_name: 'node-exporter-home'
+    static_configs:
+      - targets: ["node-exporter:9100"]
