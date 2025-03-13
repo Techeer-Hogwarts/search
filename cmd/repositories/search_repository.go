@@ -419,16 +419,39 @@ func (r *SearchRepository) EventSearch(query string, limit, offset int) ([]model
 }
 
 func (r *SearchRepository) StackSearch(query string, limit, offset int) ([]models.StackSearchResult, error) {
-	_, err := (*config.MeiliClient).Index("stack").Search(query, &meilisearch.SearchRequest{
-		Limit:            int64(limit),
-		Offset:           int64(offset),
-		ShowRankingScore: true,
+	searchRes, err := (*config.MeiliClient).Index("stack").Search(query, &meilisearch.SearchRequest{
+		Limit:                int64(limit),
+		Offset:               int64(offset),
+		AttributesToSearchOn: []string{"name"},
+		ShowRankingScore:     true,
 	})
 	if err != nil {
 		log.Println("Search error:", err)
 		return nil, err
 	}
-	return nil, err
+	results := []models.StackSearchResult{}
+	for _, hit := range searchRes.Hits {
+		hitMap, ok := hit.(map[string]interface{})
+		if !ok {
+			continue
+		}
+		id, _ := hitMap["id"].(string)
+		name, _ := hitMap["name"].(string)
+		category, _ := hitMap["category"].(string)
+		score, ok := hit.(map[string]interface{})["_rankingScore"].(float64)
+		if !ok {
+			continue
+		}
+		result := models.StackSearchResult{
+			ID:       id,
+			Name:     name,
+			Category: category,
+			Index:    "stack",
+			Score:    score,
+		}
+		results = append(results, result)
+	}
+	return results, nil
 }
 
 func (r *SearchRepository) FinalSearch(index, query string, limit, offset int) ([]models.SearchResult, error) {
