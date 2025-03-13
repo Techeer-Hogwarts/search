@@ -12,5 +12,6 @@ type Repository interface {
 	ResumeSearch(query string, limit, offset int) ([]models.ResumeSearchResult, error)
 	SessionSearch(query string, limit, offset int) ([]models.SessionSearchResult, error)
 	EventSearch(query string, limit, offset int) ([]models.EventSearchResult, error)
+	StackSearch(query string, limit, offset int) ([]models.StackSearchResult, error)
 	// FinalSearch(index, query string, limit, offset int) ([]models.SearchResult, error)
 }

@@ -119,3 +119,11 @@ type EventSearchResult struct {
 	Index    string  `json:"index" form:"index" example:"user"`
 	Score    float64 `json:"score" form:"score" example:"0.99"`
 }
+
+type StackSearchResult struct {
+	ID       string  `json:"id" form:"id" example:"1"`
+	Name     string  `json:"name" form:"name" example:"Go"`
+	Category string  `json:"category" form:"category" example:"Backend"`
+	Index    string  `json:"index" form:"index" example:"user"`
+	Score    float64 `json:"score" form:"score" example:"0.99"`
+}

@@ -51,6 +51,10 @@ func (s *SearchService) PerformEventSearch(query string, limit, offset int) ([]m
 	return s.repo.EventSearch(query, limit, offset)
 }
 
+func (s *SearchService) PerformStackSearch(query string, limit, offset int) ([]models.StackSearchResult, error) {
+	return s.repo.StackSearch(query, limit, offset)
+}
+
 // func (s *SearchService) PerformFinalSearch(index, query string, limit, offset int) ([]models.SearchResult, error) {
 // 	return s.repo.FinalSearch(index, query, limit, offset)
 // }

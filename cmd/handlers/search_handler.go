@@ -44,9 +44,9 @@ func SearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogram *pr
 	validJWT, _ := c.Get("valid_jwt")
 	var allowedIndex []string
 	if validJWT == true {
-		allowedIndex = []string{"user", "resume", "blog", "session", "project", "study", "event"}
+		allowedIndex = []string{"user", "resume", "blog", "session", "project", "study", "event", "stack"}
 	} else {
-		allowedIndex = []string{"blog", "user", "event", "project", "study"}
+		allowedIndex = []string{"blog", "user", "event", "project", "study", "stack"}
 	}
 	// available indexes: user, resume, blog, session, projectTeam, studyTeam, event
 	// Perform search
@@ -111,6 +111,15 @@ func SearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogram *pr
 		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
 	case "event":
 		results, err := service.PerformEventSearch(req.Query, req.Limit, req.Offset)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"results": results})
+		counter.WithLabelValues("success").Inc()
+		histogram.WithLabelValues("success").Observe(time.Since(startTime).Seconds())
+	case "stack":
+		results, err := service.PerformStackSearch(req.Query, req.Limit, req.Offset)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search"})
 			return
