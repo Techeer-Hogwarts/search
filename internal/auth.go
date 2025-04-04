@@ -61,6 +61,9 @@ func validateToken(tokenString string) (*JWTClaims, error) {
 	})
 
 	if err != nil || !token.Valid {
+		claims, _ := token.Claims.(*JWTClaims)
+		log.Printf("claims: %v", claims)
+		log.Printf("err: %v", err)
 		return nil, errors.New("invalid token")
 	}
 
