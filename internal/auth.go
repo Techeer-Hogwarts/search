@@ -2,6 +2,7 @@ package internal
 
 import (
 	"errors"
+	"log"
 
 	"github.com/Techeer-Hogwarts/search/config"
 	"github.com/gin-gonic/gin"
@@ -34,8 +35,10 @@ func ValidateJWT() gin.HandlerFunc {
 
 		// Validate JWT
 		claims, err := validateToken(cookie)
+		log.Printf("JWT claims: %v", claims)
 		if err != nil {
 			// Invalid JWT, allow the request to continue
+			log.Printf("Invalid JWT: %v", err)
 			c.Set("valid_jwt", false) // Flag indicating invalid JWT
 			c.Next()
 			return
