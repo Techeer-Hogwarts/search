@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/search": {
             "get": {
+                "security": [
+                    {
+                        "cookie": []
+                    }
+                ],
                 "description": "Query Meilisearch and return results",
                 "consumes": [
                     "application/json"
@@ -90,6 +95,11 @@ const docTemplate = `{
         },
         "/search/basic": {
             "get": {
+                "security": [
+                    {
+                        "cookie": []
+                    }
+                ],
                 "description": "Query All Index in Meilisearch and return results",
                 "consumes": [
                     "application/json"
@@ -149,6 +159,11 @@ const docTemplate = `{
         },
         "/search/final": {
             "get": {
+                "security": [
+                    {
+                        "cookie": []
+                    }
+                ],
                 "description": "Query All Index in Meilisearch and return results",
                 "consumes": [
                     "application/json"

@@ -48,6 +48,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - cookie: []
       summary: Search in Meilisearch
       tags:
       - search
@@ -88,6 +90,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - cookie: []
       summary: Basic Combined Search in Meilisearch
       tags:
       - search
@@ -128,6 +132,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - cookie: []
       summary: Final Combined Search in Meilisearch
       tags:
       - search
