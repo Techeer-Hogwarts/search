@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"encoding/base64"
 	"errors"
 	"log"
 
@@ -55,7 +56,13 @@ func validateToken(tokenString string) (*JWTClaims, error) {
 			log.Printf("unexpected signing method: %v", token.Header["alg"])
 			return nil, errors.New("unexpected signing method")
 		}
-		return []byte(JWT_TOKEN), nil
+		decoded, err := base64.StdEncoding.DecodeString(JWT_TOKEN)
+		if err != nil {
+			log.Printf("Failed to base64 decode JWT secret: %v", err)
+			return nil, errors.New("invalid secret")
+		}
+
+		return decoded, nil
 	})
 
 	if err != nil || !token.Valid {
