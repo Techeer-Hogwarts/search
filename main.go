@@ -6,7 +6,7 @@ import (
 	"github.com/Techeer-Hogwarts/search/cmd/server"
 )
 
-// @securityDefinitions.apikey cookie
+// @securityDefinitions.apikey access_token
 // @in cookie
 // @name access_token
 func main() {

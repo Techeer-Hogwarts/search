@@ -19,7 +19,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "cookie": []
+                        "access_token": []
                     }
                 ],
                 "description": "Query Meilisearch and return results",
@@ -97,7 +97,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "cookie": []
+                        "access_token": []
                     }
                 ],
                 "description": "Query All Index in Meilisearch and return results",
@@ -161,7 +161,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "cookie": []
+                        "access_token": []
                     }
                 ],
                 "description": "Query All Index in Meilisearch and return results",
@@ -223,7 +223,7 @@ const docTemplate = `{
         }
     },
     "securityDefinitions": {
-        "cookie": {
+        "access_token": {
             "type": "apiKey",
             "name": "access_token",
             "in": "cookie"

@@ -17,7 +17,7 @@ import (
 // @Description Query Meilisearch and return results
 // @Tags search
 // @Accept json
-// @Security cookie
+// @Security access_token
 // @Produce json
 // @Param index query string true "name of index"
 // @Param query query string true "Search query string"
@@ -140,7 +140,7 @@ func SearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogram *pr
 // @Tags search
 // @Accept json
 // @Produce json
-// @Security cookie
+// @Security access_token
 // @Param query query string true "Search query string"
 // @Param limit query int false "Number of results to return (default 10)"
 // @Param offset query int false "Offset for pagination (default 0)"
@@ -203,7 +203,7 @@ func BasicSearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogra
 // @Tags search
 // @Accept json
 // @Produce json
-// @Security cookie
+// @Security access_token
 // @Param query query string true "Search query string"
 // @Param limit query int false "Number of results to return (default 10)"
 // @Param offset query int false "Offset for pagination (default 0)"

@@ -49,7 +49,7 @@ paths:
             additionalProperties: true
             type: object
       security:
-      - cookie: []
+      - access_token: []
       summary: Search in Meilisearch
       tags:
       - search
@@ -91,7 +91,7 @@ paths:
             additionalProperties: true
             type: object
       security:
-      - cookie: []
+      - access_token: []
       summary: Basic Combined Search in Meilisearch
       tags:
       - search
@@ -133,12 +133,12 @@ paths:
             additionalProperties: true
             type: object
       security:
-      - cookie: []
+      - access_token: []
       summary: Final Combined Search in Meilisearch
       tags:
       - search
 securityDefinitions:
-  cookie:
+  access_token:
     in: cookie
     name: access_token
     type: apiKey
