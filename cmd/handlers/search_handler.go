@@ -44,11 +44,11 @@ func SearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogram *pr
 	validJWT, _ := c.Get("valid_jwt")
 	var allowedIndex []string
 	if validJWT == true {
-		allowedIndex = []string{"user", "resume", "blog", "session", "project", "study", "event", "stack"}
+		allowedIndex = []string{"user", "resume", "blog", "session", "project", "study", "event", "stack", "bootcamp"}
 	} else {
-		allowedIndex = []string{"blog", "user", "event", "project", "study", "stack"}
+		allowedIndex = []string{"blog", "user", "event", "project", "study", "stack", "bootcamp"}
 	}
-	// available indexes: user, resume, blog, session, projectTeam, studyTeam, event
+	// available indexes: user, resume, blog, session, projectTeam, studyTeam, event, bootcamp
 	// Perform search
 	if !contains(allowedIndex, req.Index) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Index Not Allowed"})
@@ -157,9 +157,9 @@ func BasicSearchHandler(c *gin.Context, counter *prometheus.CounterVec, histogra
 	// Dependency injection
 	repo := repositories.NewSearchRepository()
 	service := services.NewSearchService(repo)
-	// available indexes: user, resume, blog, session, projectTeam, studyTeam, event
-	validated := []string{"resume", "blog", "session", "project", "study", "event"}
-	invalidated := []string{"blog", "event", "project", "study"}
+	// available indexes: user, resume, blog, session, projectTeam, studyTeam, event, bootcamp
+	validated := []string{"resume", "blog", "session", "project", "study", "event", "bootcamp"}
+	invalidated := []string{"blog", "event", "project", "study", "bootcamp"}
 
 	var results []models.CombinedSearchResult
 	validJWT, _ := c.Get("valid_jwt")

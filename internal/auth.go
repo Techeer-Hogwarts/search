@@ -26,6 +26,7 @@ func ValidateJWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		cookie, err := c.Cookie("access_token")
 		if err != nil {
+			log.Printf("JWT cookie: %s", cookie)
 			c.Set("valid_jwt", false)
 			c.Next()
 			return
