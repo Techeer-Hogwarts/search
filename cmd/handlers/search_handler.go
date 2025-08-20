@@ -14,7 +14,7 @@ import (
 
 // SearchHandler handles search requests
 // @Summary Search in Meilisearch
-// @Description Query Meilisearch and return results
+// @Description Query Meilisearch and return results. Valid index are "user", "resume", "blog", "session", "project", "study", "event", "stack"
 // @Tags search
 // @Accept json
 // @Security access_token

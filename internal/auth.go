@@ -35,13 +35,13 @@ func ValidateJWT() gin.HandlerFunc {
 
 		// Validate JWT
 		claims, err := validateToken(cookie)
-		log.Printf("JWT claims: %v", claims)
 		if err != nil {
 			log.Printf("Invalid JWT: %v", err)
 			c.Set("valid_jwt", false)
 			c.Next()
 			return
 		}
+		log.Printf("JWT  valid")
 		c.Set("user_id", claims.ExpiresAt)
 		c.Set("valid_jwt", true)
 		c.Next()
@@ -51,7 +51,6 @@ func ValidateJWT() gin.HandlerFunc {
 // validateToken verifies the JWT and extracts claims
 func validateToken(tokenString string) (*JWTClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		log.Printf("JWT header: %+v", token.Header)
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			log.Printf("unexpected signing method: %v", token.Header["alg"])
 			return nil, errors.New("unexpected signing method")
@@ -66,8 +65,6 @@ func validateToken(tokenString string) (*JWTClaims, error) {
 	})
 
 	if err != nil || !token.Valid {
-		log.Printf("JWT parse token: %v", token)
-		log.Printf("JWT parse error: %v", err)
 		return nil, errors.New("invalid token")
 	}
 
