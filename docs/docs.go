@@ -22,7 +22,7 @@ const docTemplate = `{
                         "access_token": []
                     }
                 ],
-                "description": "Query Meilisearch and return results",
+                "description": "Query Meilisearch and return results. Valid index are \"user\", \"resume\", \"blog\", \"session\", \"project\", \"study\", \"event\", \"stack\"",
                 "consumes": [
                     "application/json"
                 ],
@@ -220,13 +220,6 @@ const docTemplate = `{
                     }
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "access_token": {
-            "type": "apiKey",
-            "name": "access_token",
-            "in": "cookie"
         }
     }
 }`

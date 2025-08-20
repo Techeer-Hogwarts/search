@@ -5,7 +5,8 @@ paths:
     get:
       consumes:
       - application/json
-      description: Query Meilisearch and return results
+      description: Query Meilisearch and return results. Valid index are "user", "resume",
+        "blog", "session", "project", "study", "event", "stack"
       parameters:
       - description: name of index
         in: query
@@ -137,9 +138,4 @@ paths:
       summary: Final Combined Search in Meilisearch
       tags:
       - search
-securityDefinitions:
-  access_token:
-    in: cookie
-    name: access_token
-    type: apiKey
 swagger: "2.0"
