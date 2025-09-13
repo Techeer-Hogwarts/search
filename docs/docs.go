@@ -17,7 +17,12 @@ const docTemplate = `{
     "paths": {
         "/search": {
             "get": {
-                "description": "Query Meilisearch and return results",
+                "security": [
+                    {
+                        "access_token": []
+                    }
+                ],
+                "description": "Query Meilisearch and return results. Valid index are \"user\", \"resume\", \"blog\", \"session\", \"project\", \"study\", \"event\", \"stack\"",
                 "consumes": [
                     "application/json"
                 ],
@@ -90,6 +95,11 @@ const docTemplate = `{
         },
         "/search/basic": {
             "get": {
+                "security": [
+                    {
+                        "access_token": []
+                    }
+                ],
                 "description": "Query All Index in Meilisearch and return results",
                 "consumes": [
                     "application/json"
@@ -149,6 +159,11 @@ const docTemplate = `{
         },
         "/search/final": {
             "get": {
+                "security": [
+                    {
+                        "access_token": []
+                    }
+                ],
                 "description": "Query All Index in Meilisearch and return results",
                 "consumes": [
                     "application/json"
@@ -205,13 +220,6 @@ const docTemplate = `{
                     }
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "cookie": {
-            "type": "apiKey",
-            "name": "access_token",
-            "in": "cookie"
         }
     }
 }`

@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"encoding/base64"
 	"errors"
 	"log"
 
@@ -26,6 +27,7 @@ func ValidateJWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		cookie, err := c.Cookie("access_token")
 		if err != nil {
+			log.Printf("JWT cookie: %s", cookie)
 			c.Set("valid_jwt", false)
 			c.Next()
 			return
@@ -33,13 +35,13 @@ func ValidateJWT() gin.HandlerFunc {
 
 		// Validate JWT
 		claims, err := validateToken(cookie)
-		log.Printf("JWT claims: %v", claims)
 		if err != nil {
 			log.Printf("Invalid JWT: %v", err)
 			c.Set("valid_jwt", false)
 			c.Next()
 			return
 		}
+		log.Printf("JWT  valid")
 		c.Set("user_id", claims.ExpiresAt)
 		c.Set("valid_jwt", true)
 		c.Next()
@@ -53,7 +55,13 @@ func validateToken(tokenString string) (*JWTClaims, error) {
 			log.Printf("unexpected signing method: %v", token.Header["alg"])
 			return nil, errors.New("unexpected signing method")
 		}
-		return []byte(JWT_TOKEN), nil
+		decoded, err := base64.StdEncoding.DecodeString(JWT_TOKEN)
+		if err != nil {
+			log.Printf("Failed to base64 decode JWT secret: %v", err)
+			return nil, errors.New("invalid secret")
+		}
+
+		return decoded, nil
 	})
 
 	if err != nil || !token.Valid {
